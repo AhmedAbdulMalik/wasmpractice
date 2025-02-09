@@ -1,8 +1,6 @@
 # Ignore compiled files
 *.o
 *.out
-*.wasm
-
 
 # Ignore OS-specific files
 .DS_Store

@@ -1,0 +1,6 @@
+emcc filters.c helpers.c -o filters.js -O3 \
+  -s EXPORTED_FUNCTIONS='["_apply_filter"]' \
+  -s MODULARIZE=1 -s EXPORT_ES6=1 -s ENVIRONMENT=web \
+  -s EXPORTED_RUNTIME_METHODS='["ccall", "cwrap"]'
+
+
