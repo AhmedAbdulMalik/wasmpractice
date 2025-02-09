@@ -1,6 +1,6 @@
 #include<stdio.h>
-int main (void){
+int main (){
 
-	printf("welcome asm");
-
+	printf("welcome asm\n");
+	return 0;
 }

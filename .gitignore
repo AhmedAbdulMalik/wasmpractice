@@ -2,7 +2,7 @@
 *.o
 *.out
 *.wasm
-*.js.map
+
 
 # Ignore OS-specific files
 .DS_Store
