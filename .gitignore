@@ -1,0 +1,17 @@
+# Ignore compiled files
+*.o
+*.out
+*.wasm
+*.js.map
+
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore dependency folders
+node_modules/
+venv/
+__pycache__/
+
+# Ignore VS Code settings
+.vscode/
