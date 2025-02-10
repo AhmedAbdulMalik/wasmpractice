@@ -3,10 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TESTING</title>
-    <script src="hello.js" ></script>
+    <title>WebAssembly BMP Filter</title>
 </head>
 <body>
+    <h1>Apply BMP Filter</h1>
+
+    <label for="filterSelect">Choose a filter:</label>
+    <select id="filterSelect">
+        <option value="g">Grayscale</option>
+        <option value="s">Sepia</option>
+        <option value="r">Reflect</option>
+        <option value="b">Blur</option>
+    </select>
+
+    <br><br>
+
+    <input type="file" id="fileInput" accept=".bmp" />
+    <p>Choose a BMP file to apply a filter</p>
     
+    <script src="filters.js"></script>
+    <script>
+        Module.onRuntimeInitialized = function() {
+            console.log("WebAssembly module initialized");
+
+            if (Module._malloc) {
+                console.log("malloc is available!");
+            } else {
+                console.log("malloc is NOT available.");
+            }
+
+            document.getElementById("fileInput").addEventListener("change", async function (event) {
+                const file = event.target.files[0];
+                if (!file) return;
+
+                const arrayBuffer = await file.arrayBuffer();
+                const dataSize = arrayBuffer.byteLength;
+
+                // Get the selected filter from dropdown
+                const selectedFilter = document.getElementById("filterSelect").value;
+                
+                const ptr = Module._malloc(dataSize);
+                if (ptr === 0) {
+                    console.log("Memory allocation failed.");
+                    return;
+                }
+                console.log(`Allocated memory at: ${ptr}`);
+
+                Module.HEAPU8.set(new Uint8Array(arrayBuffer), ptr);
+
+                // Apply the selected filter
+                Module._apply_filter(selectedFilter.charCodeAt(0), ptr, dataSize);
+
+                const modifiedData = Module.HEAPU8.slice(ptr, ptr + dataSize);
+
+                Module._free(ptr);
+                console.log("Memory freed.");
+
+                // Create and download the modified BMP file
+                const blob = new Blob([modifiedData], { type: "image/bmp" });
+                const link = document.createElement("a");
+                link.href = URL.createObjectURL(blob);
+                link.download = `filtered_${selectedFilter}.bmp`;
+                link.click();
+            });
+        };
+    </script>
 </body>
 </html>
