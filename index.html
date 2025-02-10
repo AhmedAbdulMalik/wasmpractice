@@ -8,6 +8,8 @@
 <body>
     <h1>Apply BMP Filter</h1>
 
+    <!-- currently bmp only but more file formats in the future -->
+    
     <label for="filterSelect">Choose a filter:</label>
     <select id="filterSelect">
         <option value="g">Grayscale</option>
@@ -26,10 +28,14 @@
         Module.onRuntimeInitialized = function() {
             console.log("WebAssembly module initialized");
 
-            if (Module._malloc) {
-                console.log("malloc is available!");
+            <!-- why? well because have cried tears of blood for malloc to work,
+                 so this is a standard C Protocol
+                same here because sometimes the console says Module._malloc is not a function ;( -->
+            
+                if (Module._malloc) {
+                console.log("malloc is available!hurray!");
             } else {
-                console.log("malloc is NOT available.");
+                console.log("malloc is NOT available.DON'T PANIC YOU CAN FIX IT! TATAKAE!");
             }
 
             document.getElementById("fileInput").addEventListener("change", async function (event) {
@@ -39,7 +45,7 @@
                 const arrayBuffer = await file.arrayBuffer();
                 const dataSize = arrayBuffer.byteLength;
 
-                // Get the selected filter from dropdown
+                //selected filter from dropdown
                 const selectedFilter = document.getElementById("filterSelect").value;
                 
                 const ptr = Module._malloc(dataSize);
