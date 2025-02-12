@@ -3,9 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <title>WebAssembly BMP Filter</title>
+
 </head>
+<header>
+    <div id =nav>
+        <nav>
+           <h1>bmp image converter</h1>
+        </nav>
+     </div>
+</header>
 <body>
+    
     <h1>Apply BMP Filter</h1>
 
     <!-- currently bmp only but more file formats in the future -->
@@ -28,9 +38,9 @@
         Module.onRuntimeInitialized = function() {
             console.log("WebAssembly module initialized");
 
-            <!-- why? well because have cried tears of blood for malloc to work,
-                 so this is a standard C Protocol
-                same here because sometimes the console says Module._malloc is not a function ;( -->
+            //<!-- why? well because have cried tears of blood for malloc to work,
+               //  so this is a standard C Protocol
+               // same here because sometimes the console says Module._malloc is not a function ; -->
             
                 if (Module._malloc) {
                 console.log("malloc is available!hurray!");
